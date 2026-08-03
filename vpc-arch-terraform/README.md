@@ -285,17 +285,3 @@ Remote state (S3):
 | `Error: Backend initialization required`   | Backend block changed                                          | Run `terraform init -reconfigure`                                 |
 | Nginx not responding                       | user_data still running (takes ~2 min after instance is ready) | Wait 2 minutes then retry                                         |
 
-
----
-
-## What to Try Next (Week 2 Extension Exercises)
-
-1. **Add a workspace:** `terraform workspace new staging` — deploy a second isolated copy
-2. **Add locals:** Create a `locals.tf` with `common_tags = { Project = var.project_name }` and use it everywhere
-3. **Add an ALB module:** Create `modules/alb/` that puts a load balancer in front of the Dev Server
-4. **Parameterize instance count:** Add `variable "dev_server_count"` and use `count` in the EC2 module
-5. **Import existing resources:** If you have leftover Week 1 manual resources: `terraform import aws_vpc.main <vpc-id>`
-
----
-
-*Week 2 of Hiten Jaypal's 12-Week DevOps Learning Journey | Terraform + AWS VPC | ap-south-1*
