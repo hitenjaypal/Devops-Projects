@@ -8,8 +8,8 @@ set -e
 # Update System Packages
 sudo dnf update -y
 
-# Install Java 17 (Required for Jenkins)
-sudo dnf install java-17-amazon-corretto -y
+# Install Java 21 (Required for Jenkins 2.500+)
+sudo dnf install java-21-amazon-corretto -y
 
 # Install Git
 sudo dnf install git -y
