@@ -70,23 +70,23 @@ That is why the NAT Gateway is required in this learning architecture.
 
 ## Why two subnet types?
 
-| Component | Public subnet | Private subnet |
-| --- | --- | --- |
-| Route to Internet Gateway | Yes | No |
-| Public IP needed | Load balancer / NAT only | No |
-| Used by | NAT Gateway and public LoadBalancer | EKS worker nodes and application Pods |
-| Inbound access from internet | Possible when security rules allow | Not directly possible |
+| Component                    | Public subnet                       | Private subnet                        |
+| ---------------------------- | ----------------------------------- | ------------------------------------- |
+| Route to Internet Gateway    | Yes                                 | No                                    |
+| Public IP needed             | Load balancer / NAT only            | No                                    |
+| Used by                      | NAT Gateway and public LoadBalancer | EKS worker nodes and application Pods |
+| Inbound access from internet | Possible when security rules allow  | Not directly possible                 |
 
 The subnet type is decided by its **route table**, not by its name.
 
 ## Security model
 
-| Layer | What protects it |
-| --- | --- |
-| Kubernetes API | EKS endpoint CIDR restriction plus the additional API security group, both limited to your `admin_cidr` on TCP 443 |
-| Worker nodes | Private subnets; no SSH access configured; EKS-managed security-group rules |
-| Game traffic | AWS LoadBalancer sends traffic only to matching healthy Pods |
-| Outbound access | NAT Gateway permits private-subnet initiated outbound connections only |
+| Layer           | What protects it                                                                                                   |
+| --------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Kubernetes API  | EKS endpoint CIDR restriction plus the additional API security group, both limited to your `admin_cidr` on TCP 443 |
+| Worker nodes    | Private subnets; no SSH access configured; EKS-managed security-group rules                                        |
+| Game traffic    | AWS LoadBalancer sends traffic only to matching healthy Pods                                                       |
+| Outbound access | NAT Gateway permits private-subnet initiated outbound connections only                                             |
 
 When manually creating the cluster, set its public endpoint CIDR to the same `admin_cidr` used by Terraform. The security group alone is not a replacement for that EKS endpoint setting.
 
@@ -94,10 +94,10 @@ When manually creating the cluster, set its public endpoint CIDR to the same `ad
 
 Terraform sets these tags before EKS exists:
 
-| Tag | Meaning |
-| --- | --- |
-| `kubernetes.io/role/elb = 1` | This public subnet can host a public load balancer. |
-| `kubernetes.io/role/internal-elb = 1` | This private subnet can host an internal load balancer. |
+| Tag                                               | Meaning                                                  |
+| ------------------------------------------------- | -------------------------------------------------------- |
+| `kubernetes.io/role/elb = 1`                      | This public subnet can host a public load balancer.      |
+| `kubernetes.io/role/internal-elb = 1`             | This private subnet can host an internal load balancer.  |
 | `kubernetes.io/cluster/2048-eks-cluster = shared` | This subnet is shared with the manually-created cluster. |
 
 Tags are metadata. They do not create EKS or a load balancer; they let those manual/EKS actions discover the correct subnets later.
@@ -119,5 +119,3 @@ Delete in reverse dependency order:
 1. Kubernetes Service, Deployment, Namespace
 2. Manual EKS node group, then EKS cluster, then IAM roles
 3. `terraform destroy`
-
-If you try `terraform destroy` first, AWS correctly blocks VPC deletion because the manually-created EKS resources are still using it.
