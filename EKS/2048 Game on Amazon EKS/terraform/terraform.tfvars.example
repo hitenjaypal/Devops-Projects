@@ -1,0 +1,6 @@
+aws_region   = "ap-south-1"
+project_name = "2048-eks"
+cluster_name = "2048-eks-cluster"
+
+# Get yours with: curl https://checkip.amazonaws.com
+admin_cidr = "203.0.113.10/32"
