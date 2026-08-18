@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: game-2048
-          image: blackicebird/2048:latest
+          image: public.ecr.aws/l6m2t8p7/docker-2048:latest
           ports:
             - containerPort: 80
