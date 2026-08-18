@@ -20,7 +20,7 @@ Browser: 2048 game
 
 Install AWS CLI v2, Terraform 1.6+, and `kubectl`. Your AWS identity needs permissions for VPC, EC2, EKS, IAM, and Elastic Load Balancing.
 
-```powershell
+```bash
 aws sts get-caller-identity
 terraform -version
 kubectl version --client
@@ -43,11 +43,11 @@ It does **not** create IAM roles, EKS, nodes, Pods, or the load balancer.
 
 ### 1. Configure your variables
 
-Open a PowerShell terminal in this project and run:
+Open an Ubuntu terminal in this project and run:
 
-```powershell
+```bash
 cd terraform
-Copy-Item terraform.tfvars.example terraform.tfvars
+cp terraform.tfvars.example terraform.tfvars
 curl https://checkip.amazonaws.com
 ```
 
@@ -64,7 +64,7 @@ For example, if the command returns `49.36.10.20`, set `admin_cidr = "49.36.10.2
 
 ### 2. Review before creating anything
 
-```powershell
+```bash
 terraform init
 terraform fmt -check
 terraform validate
@@ -73,13 +73,13 @@ terraform plan
 
 Read the plan. You should see VPC/network/security-group resources and no EKS cluster resource. Only when you understand it, create them:
 
-```powershell
+```bash
 terraform apply
 ```
 
 Type `yes` only after reviewing the final plan. Save the output values; you can also see them anytime with:
 
-```powershell
+```bash
 terraform output
 ```
 
@@ -142,7 +142,7 @@ Wait for the node group to become **Active**.
 
 ## Part 6: Connect kubectl
 
-```powershell
+```bash
 aws eks update-kubeconfig --region <your-region> --name 2048-eks-cluster
 kubectl get nodes
 ```
@@ -207,7 +207,7 @@ spec:
 
 Apply them and wait for the public hostname:
 
-```powershell
+```bash
 kubectl apply -f namespace.yaml
 kubectl apply -f 2048-deployment.yaml
 kubectl apply -f 2048-service.yaml
@@ -222,7 +222,7 @@ Perform cleanup in this order. Terraform cannot destroy the VPC until the manual
 
 ### A. Delete the game load balancer and Pods
 
-```powershell
+```bash
 kubectl delete -f 2048-service.yaml
 kubectl delete -f 2048-deployment.yaml
 kubectl delete -f namespace.yaml
@@ -242,7 +242,7 @@ In the EKS console:
 
 From the `terraform` directory:
 
-```powershell
+```bash
 terraform plan -destroy
 terraform destroy
 ```
@@ -253,10 +253,10 @@ Approve only after checking the plan. This removes the NAT gateway, Elastic IP, 
 
 If you need to stop costs quickly and cannot use `kubectl`, delete EKS resources first with AWS CLI. Replace the Region and cluster name if you changed them:
 
-```powershell
-$region = "ap-south-1"
-$cluster = "2048-eks-cluster"
-$nodegroup = "2048-node-group"
+```bash
+region="ap-south-1"
+cluster="2048-eks-cluster"
+nodegroup="2048-node-group"
 
 aws eks delete-nodegroup --region $region --cluster-name $cluster --nodegroup-name $nodegroup
 aws eks wait nodegroup-deleted --region $region --cluster-name $cluster --nodegroup-name $nodegroup

@@ -36,7 +36,7 @@ Namespaces let multiple applications share one cluster without mixing their name
 
 Apply it first:
 
-```powershell
+```bash
 kubectl apply -f namespace.yaml
 kubectl get namespaces
 ```
@@ -104,7 +104,7 @@ The same label is also used later by the Service. It is the link that lets the S
 
 Apply and observe the controller's work:
 
-```powershell
+```bash
 kubectl apply -f 2048-deployment.yaml
 kubectl get deployment game-2048 -n game-2048
 kubectl get pods -n game-2048
@@ -149,7 +149,7 @@ Browser → AWS Load Balancer:80 → Service:80 → selected Pod:80 → 2048 con
 
 Apply it and wait:
 
-```powershell
+```bash
 kubectl apply -f 2048-service.yaml
 kubectl get service game-2048 -n game-2048 --watch
 ```
@@ -164,7 +164,7 @@ AWS may take several minutes to create the load balancer. When `EXTERNAL-IP` sho
 
 ## How to inspect the YAML after applying
 
-```powershell
+```bash
 # Show the API objects actually stored by Kubernetes.
 kubectl get deployment,replicaset,pods,service -n game-2048
 
@@ -178,7 +178,7 @@ kubectl describe service game-2048 -n game-2048
 
 If the endpoint list is empty, first compare the Service selector with the Pod labels:
 
-```powershell
+```bash
 kubectl get pods -n game-2048 --show-labels
 kubectl get service game-2048 -n game-2048 -o yaml
 ```
@@ -187,7 +187,7 @@ kubectl get service game-2048 -n game-2048 -o yaml
 
 ### Scale the app
 
-```powershell
+```bash
 kubectl scale deployment game-2048 -n game-2048 --replicas=3
 ```
 
@@ -197,7 +197,7 @@ This changes the desired number of Pods to three. Reapply your original Deployme
 
 Edit the `image:` value in the Deployment YAML, then apply it again:
 
-```powershell
+```bash
 kubectl apply -f 2048-deployment.yaml
 kubectl rollout status deployment/game-2048 -n game-2048
 ```
@@ -208,7 +208,7 @@ Kubernetes performs a rolling update: it creates Pods with the new image and rem
 
 Delete the Service first so AWS removes the billable load balancer, then the Deployment and Namespace:
 
-```powershell
+```bash
 kubectl delete -f 2048-service.yaml
 kubectl delete -f 2048-deployment.yaml
 kubectl delete -f namespace.yaml
