@@ -12,7 +12,7 @@ Super Mario is a legendary game we all cherish! In this project, we will deploy 
 
 This project provisions an **EKS cluster** on AWS and deploys the **Super Mario game** using **Terraform** and **Kubernetes manifests**. The deployment includes:
 
-- ✅ **Amazon EKS Cluster** (v1.29) with latest features
+- ✅ **Amazon EKS Cluster** (v1.31) with latest features
 - ✅ **Terraform Infrastructure as Code** (v1.8+)
 - ✅ **Kubernetes Deployment & Service** with best practices
 - ✅ **AWS S3 Backend** for Terraform state management
@@ -142,7 +142,7 @@ kubectl describe hpa mario-hpa
 
 ## **🎯 Project Highlights**
 
-- **AWS EKS v1.29**: Latest managed Kubernetes cluster with enhanced features
+- **AWS EKS v1.31**: Supported managed Kubernetes cluster with enhanced features
 - **Terraform v1.8+**: Modern Infrastructure as Code with improved provider versions
 - **Kubernetes Best Practices**: Security contexts, resource limits, and health checks
 - **AWS S3 Backend**: Remote state management with DynamoDB locking
@@ -159,7 +159,7 @@ kubectl describe hpa mario-hpa
 
 ### **EKS Cluster Configuration**
 
-- **Version**: 1.29 (Latest stable)
+- **Version**: 1.31 (Supported stable)
 - **Node Group**: t3.medium instances with 30GB disk
 - **Scaling**: 1-4 nodes with desired size of 2
 - **Logging**: All control plane logs enabled
