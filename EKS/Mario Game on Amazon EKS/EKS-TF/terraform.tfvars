@@ -6,7 +6,7 @@ eks_version     = "1.31"
 
 # Node Group Configuration
 node_group_name = "Node-cloud"
-instance_types  = ["t3.medium"]
+instance_types  = ["t3.small"]
 desired_size    = 2
 max_size        = 4
 min_size        = 1
